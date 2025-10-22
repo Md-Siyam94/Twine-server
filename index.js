@@ -4,12 +4,12 @@ const app = express()
 require('dotenv').config()
 const port = process.env.PORT || 5600
 
-app.use(express.json()) 
+app.use(express.json())
 app.use(cors())
 
 
-app.get('/', (req, res)=>{
-    res.send('This is Twine server')
+app.get('/', (req, res) => {
+  res.send('This is Twine server')
 })
 
 // Twine
@@ -37,25 +37,25 @@ async function run() {
 
     // User Collection
 
-    app.get('/users', async(req, res)=>{
+    app.get('/users', async (req, res) => {
       const result = await userCollection.find().toArray();
       res.send(result)
     })
 
-    app.get('/users/:email', async(req, res)=>{
+    app.get('/users/:email', async (req, res) => {
       const email = req.params.email;
-      const filter = {email: email};
+      const filter = { email: email };
       const result = await userCollection.findOne(filter);
       // console.log(result);
       res.send(result);
     })
 
-    app.post('/users', async(req, res)=>{
+    app.post('/users', async (req, res) => {
       const user = req.body;
-      const query = {email: user.email}
+      const query = { email: user.email }
       // console.log(query);
       const existingUser = await userCollection.findOne(query);
-      if(existingUser){
+      if (existingUser) {
         return res.send({ message: "User already exist", insertedId: null })
       }
 
@@ -67,19 +67,26 @@ async function run() {
 
     // Products Collection
 
-    app.get("/products", async(req, res)=>{
-      const result= await productCollection.find().toArray();
+    app.get("/products", async (req, res) => {
+      const result = await productCollection.find().toArray();
       res.send(result);
     })
 
-    app.get("/products/:id", async(req, res)=>{
+    app.get("/products/:id", async (req, res) => {
       const id = req.params.id;
-      const filter = {_id: new ObjectId(id)}
+      const filter = { _id: new ObjectId(id) }
       const result = await productCollection.findOne(filter);
       res.send(result)
     })
 
-    app.post("/products", async(req, res)=>{
+    app.delete("/products/delete/:id", async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) };
+      const result = await productCollection.deleteOne(filter);
+      res.send(result)
+    })
+
+    app.post("/products", async (req, res) => {
       const product = req.body;
       const result = await productCollection.insertOne(product);
       res.send(result)
@@ -100,6 +107,6 @@ run().catch(console.dir);
 
 
 
-app.listen(port, ()=>{
-    console.log(`The server is running of port ${port}`);
+app.listen(port, () => {
+  console.log(`The server is running of port ${port}`);
 })
