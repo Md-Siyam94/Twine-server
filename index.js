@@ -15,7 +15,7 @@ app.get('/', (req, res)=>{
 // Twine
 // BeI7Zq916a1LrZXz
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@cluster0.ttcu5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 console.log(process.env.DB_USER);
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -70,6 +70,13 @@ async function run() {
     app.get("/products", async(req, res)=>{
       const result= await productCollection.find().toArray();
       res.send(result);
+    })
+
+    app.get("/products/:id", async(req, res)=>{
+      const id = req.params.id;
+      const filter = {_id: new ObjectId(id)}
+      const result = await productCollection.findOne(filter);
+      res.send(result)
     })
 
     app.post("/products", async(req, res)=>{
