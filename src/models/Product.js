@@ -20,18 +20,18 @@ const ProductSchema = new mongoose.Schema({
     },
     size: {
         type: Array,
-        required: true,
+       
     },
     color: {
         type: Array || String,
-        required: true,
+        
     },
     material: {
         type: String,
     },
     inStock: {
         type: Boolean,
-        required: true,
+        default: true,
         enum: [true, false]
     },
     image: {
@@ -39,7 +39,8 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     description: {
-        type: String
+        type: String,
+        required: true
     },
     category: {
         type: String,

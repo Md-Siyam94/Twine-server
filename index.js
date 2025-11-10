@@ -33,6 +33,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@clu
 
     const userRoutes = require('./src/routes/userRoutes');
     const productRoutes = require('./src/routes/productRoutes');
+const Products = require('./src/models/Product');
 
     // use middlewire
     app.use('/users', userRoutes)
@@ -143,17 +144,17 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@clu
 
     // Aggrigation pipeline
 
-    // app.get('/category', async (req, res) => {
-    //   const category =await productCollection.aggregate([
-    //     {
-    //       $group: {
-    //         _id: "$category"
-    //       }
-    //     }
-    //   ]).toArray()
-    //   // console.log(category);
-    //   res.send(category)
-    // })
+    app.get('/category', async (req, res) => {
+      const category =await Products.aggregate([
+        {
+          $group: {
+            _id: "$category"
+          }
+        }
+      ])
+      // console.log(category);
+      res.json(category)
+    })
 
 app.listen(port, () => {
   console.log(`The server is running of port ${port}`);
