@@ -19,7 +19,7 @@ const ProductSchema = new mongoose.Schema({
         required: true
     },
     size: {
-        type: Array,
+        type: Array || String,
        
     },
     color: {
@@ -28,6 +28,7 @@ const ProductSchema = new mongoose.Schema({
     },
     material: {
         type: String,
+        required: true
     },
     inStock: {
         type: Boolean,
