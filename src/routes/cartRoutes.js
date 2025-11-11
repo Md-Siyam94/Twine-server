@@ -28,8 +28,8 @@ const router = express.Router()
     router.delete("/:id", async(req, res)=>{
         const id = req.params.id;
         const filter = {_id: id}
-        console.log(filter);
-        // const result = await Cart.deleteOne()
+        const result = await Cart.deleteOne(filter)
+        res.json(result)
     })
 
 

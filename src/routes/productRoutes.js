@@ -26,6 +26,14 @@ const router = express.Router()
         res.json(product)
     })
 
+    // delete single product
+    router.delete("/:id", async(req, res)=>{
+        const id = req.params.id;
+        const filter = {_id: id};
+        const result = await Product.deleteOne(filter);
+        res.json(result)
+    })
+
 
 
     module.exports = router
