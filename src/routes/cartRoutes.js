@@ -11,7 +11,14 @@ const router = express.Router()
 
     // post at cart
     router.post("/", async(req, res)=>{
-        const product = new Cart(req.body);
+        const product = new Cart(req.body); 
+        const productId = {productId: product?.productId};
+        // console.log(productId);
+        const existingProduct = await Cart.findOne(productId);
+        console.log(existingProduct);
+        if(existingProduct){
+           return res.json({message: "Product already have in cart"})
+        }
         await product.save()
         res.status(201).json({success: true, data: product})
     })
