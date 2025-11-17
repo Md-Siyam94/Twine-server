@@ -27,6 +27,7 @@ router.get('/', async(req, res)=>{
 router.delete('/:id', async(req, res)=>{
     const id = req.params.id;
     const filter = {_id: id};
+    // console.log(filter);
     const result = await Wishlist.deleteOne(filter);
     res.json(result)
 })
