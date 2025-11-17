@@ -7,9 +7,7 @@ const router = express.Router()
 router.post("/", async (req, res) => {
     const product = new Cart(req.body);
     const productId = { productId: product?.productId };
-    // console.log(productId);
     const existingProduct = await Cart.findOne(productId);
-    // console.log(existingProduct);
     if (existingProduct) {
         return res.json({ message: "Product already have in cart" })
     }
@@ -25,9 +23,9 @@ router.get("/", async (req, res) => {
 })
 
 // get product by email
-router.get("/:email", async(req, res)=>{
+router.get("/:email", async (req, res) => {
     const email = req.params.email;
-    const filter = {userEmail: email};
+    const filter = { userEmail: email };
     const products = await Cart.find(filter);
     res.json(products)
 })

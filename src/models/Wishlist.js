@@ -39,6 +39,14 @@ const wishlistSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
+    inStock: {
+        type: Boolean,
+    },
+        
     size: {
         type: Array || String,
         default: null

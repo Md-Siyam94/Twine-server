@@ -34,6 +34,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@clu
     const userRoutes = require('./src/routes/userRoutes');
     const productRoutes = require('./src/routes/productRoutes');
     const cartRoutes = require('./src/routes/cartRoutes');
+    const wishlistRoutes = require('./src/routes/wishlistRoutes');
 
 
 
@@ -43,6 +44,7 @@ const Products = require('./src/models/Product');
     app.use('/users', userRoutes)
     app.use('/products', productRoutes)
     app.use('/cart_products', cartRoutes)
+    app.use('/wishlist', wishlistRoutes)
 
 // const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 // const { default: mongoose } = require('mongoose');
