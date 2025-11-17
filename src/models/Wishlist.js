@@ -1,8 +1,7 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-const { default: mongoose } = require("mongoose");
+const wishlistSchema = new mongoose.Schema({
 
-const cartSchema = new mongoose.Schema({
     userEmail: {
         type: String,
         required: true
@@ -36,11 +35,10 @@ const cartSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    metarial:{
-         type: String,
+    metarial: {
+        type: String,
         required: true
     },
-    
     size: {
         type: Array || String,
         default: null
@@ -51,7 +49,7 @@ const cartSchema = new mongoose.Schema({
     }
 },
     { timestamps: true }
-);
+)
 
-const Cart = mongoose.model("cart", cartSchema)
-module.exports = Cart
+const wishlist = mongoose.model('wishlist', wishlistSchema)
+module.exports = wishlist
