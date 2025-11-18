@@ -23,7 +23,7 @@ router.get('/', async(req, res)=>{
     res.json(products)
 })
 
-// get single product from wishlist
+// get products from wishlist
 router.get('/:email', async(req, res)=>{
     const email = req.params.email;
     const filter = {userEmail: email}

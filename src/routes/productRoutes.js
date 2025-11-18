@@ -22,7 +22,8 @@ const router = express.Router()
     // get single product
     router.get("/:id", async(req, res)=>{
         const id = req.params.id;
-        const product = await Products.findById(id);
+        const filter = {_id: id}
+        const product = await Products.findOne(filter);
         res.json(product)
     })
 

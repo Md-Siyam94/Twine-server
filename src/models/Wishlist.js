@@ -35,7 +35,7 @@ const wishlistSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    metarial: {
+    material: {
         type: String,
         required: true
     },
