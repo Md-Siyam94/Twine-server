@@ -23,6 +23,14 @@ router.get('/', async(req, res)=>{
     res.json(products)
 })
 
+// get single product from wishlist
+router.get('/:email', async(req, res)=>{
+    const email = req.params.email;
+    const filter = {userEmail: email}
+    const products = await wishlist.find(filter)
+    res.json(products)
+})
+
 // delete product form wishlist
 router.delete('/:id', async(req, res)=>{
     const id = req.params.id;
