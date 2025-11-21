@@ -35,6 +35,7 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@clu
 
 const Products = require('./src/models/Product');
 const User = require('./src/models/User');
+const wishlist = require('./src/models/Wishlist');
 
     // use middlewire
     app.use('/users', userRoutes)
@@ -55,11 +56,37 @@ const User = require('./src/models/User');
       res.json(category)
     })
 
+    // users state
+    app.get("/users-state", async(req, res)=>{
+      const wishlist = await wishlist.estimatedDocumentCount()
+      const totalPrice = await Products.aggregate([
+        {
+          $group:{
+            _id: null,
+            totalPrice: { $sum: "$price" }
+          }
+        }
+      ])
+      // const orders = await 
+
+      res.json({
+        wishlist,
+        totalPrice,
+        
+      })
+    })
+
     // admin state
     app.get("/admin-state", async(req, res)=>{
       const totalUsers = await User.estimatedDocumentCount() 
       const totalProducts = await Products.estimatedDocumentCount()
-      
+
+
+      res.json({
+        totalProducts,
+        totalUsers,
+
+      })
     })
 
 app.listen(port, () => {
