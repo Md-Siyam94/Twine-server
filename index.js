@@ -19,75 +19,78 @@ mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_KEY}@clu
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(res=> {
-  console.log("MongoDB connected (Atlas)");
-})
-.catch(err=>{
-  console.log("error from db", err);
-})
+  .then(res => {
+    console.log("MongoDB connected (Atlas)");
+  })
+  .catch(err => {
+    console.log("error from db", err);
+  })
 
 // Impoort Routes
 
-    const userRoutes = require('./src/routes/userRoutes');
-    const productRoutes = require('./src/routes/productRoutes');
-    const cartRoutes = require('./src/routes/cartRoutes');
-    const wishlistRoutes = require('./src/routes/wishlistRoutes');
+const userRoutes = require('./src/routes/userRoutes');
+const productRoutes = require('./src/routes/productRoutes');
+const cartRoutes = require('./src/routes/cartRoutes');
+const wishlistRoutes = require('./src/routes/wishlistRoutes');
+const orderRoutes = require('./src/routes/orderRoutes')
 
 const Products = require('./src/models/Product');
 const User = require('./src/models/User');
 const wishlist = require('./src/models/Wishlist');
 
-    // use middlewire
-    app.use('/users', userRoutes)
-    app.use('/products', productRoutes)
-    app.use('/cart_products', cartRoutes)
-    app.use('/wishlist', wishlistRoutes)
 
-    // Aggrigation pipeline
+// use middlewire
+app.use('/users', userRoutes)
+app.use('/products', productRoutes)
+app.use('/cart_products', cartRoutes)
+app.use('/wishlist', wishlistRoutes)
+app.use('/orders', orderRoutes)
 
-    app.get('/category', async (req, res) => {
-      const category =await Products.aggregate([
-        {
-          $group: {
-            _id: "$category"
-          }
-        }
-      ])
-      res.json(category)
-    })
+// Aggrigation pipeline
 
-    // users state
-    app.get("/users-state", async(req, res)=>{
-      const wishlist = await wishlist.estimatedDocumentCount()
-      const totalPrice = await Products.aggregate([
-        {
-          $group:{
-            _id: null,
-            totalPrice: { $sum: "$price" }
-          }
-        }
-      ])
-      // const orders = await 
+app.get('/category', async (req, res) => {
+  const category = await Products.aggregate([
+    {
+      $group: {
+        _id: "$category"
+      }
+    }
+  ])
+  res.json(category)
+})
 
-      res.json({
-        wishlist,
-        totalPrice,
-        
-      })
-    })
+// users state
+app.get("/users-state", async (req, res) => {
+  const wishlist = await wishlist.estimatedDocumentCount()
+  const totalPrice = await Products.aggregate([
+    {
+      $group: {
+        _id: null,
+        totalPrice: { $sum: "$price" }
+      }
+    }
+  ])
+  // const orders = await 
 
-    // admin state
-    app.get("/admin-state", async(req, res)=>{
-      const totalUsers = await User.estimatedDocumentCount() 
-      const totalProducts = await Products.estimatedDocumentCount()
+  res.json({
+    wishlist,
+    totalPrice,
+
+  })
+})
+
+// admin state
+app.get("/admin-state", async (req, res) => {
+  const totalUsers = await User.estimatedDocumentCount()
+  const totalProducts = await Products.estimatedDocumentCount()
 
 
-      res.json({
-        totalProducts,
-        totalUsers,
+  res.json({
+    totalProducts,
+    totalUsers,
 
-      })
-    })
+  })
+})
 
 app.listen(port, () => {
   console.log(`The server is running of port ${port}`);
