@@ -4,7 +4,7 @@ const Order = require('../models/Order');
 const router = express.Router()
 
 // get all orders
-router.get("/")
+// router.get("/")
 
 
 module.exports = router
