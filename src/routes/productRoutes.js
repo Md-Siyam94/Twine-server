@@ -16,7 +16,18 @@ router.post('/', async (req, res) => {
 
 // get products
 router.get('/', async (req, res) => {
+    const category = req.query.category
+    console.log(category);
     const products = await Product.find();
+    res.json(products)
+})
+
+// get products by category
+router.get("/:category", async(req, res)=>{
+    const category = req.params.category;
+    const filter = {category: category}
+    // console.log(category);
+    const products = await Product.find(filter);
     res.json(products)
 })
 

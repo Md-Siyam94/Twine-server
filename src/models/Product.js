@@ -35,6 +35,9 @@ const ProductSchema = new mongoose.Schema({
         default: true,
         enum: [true, false]
     },
+    descount:{
+        type: Number,
+    },
     image: {
         type: String,
         required: true
