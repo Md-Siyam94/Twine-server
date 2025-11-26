@@ -8,14 +8,14 @@ const router = express.Router();
 
 router.get("/", async(req, res)=>{
     const result = await User.find();
-    res.json(result)
+    return res.json(result)
 })
 
 router.get("/:email", async(req, res)=>{
     const email = req.params.email;
     const filter = {email: email};
     const result = await User.findOne(filter);
-    res.json(result)
+    return res.json(result)
     // console.log(result);
 })
 
@@ -27,7 +27,7 @@ router.post("/", async(req, res)=>{
        return res.json({ message: "User already exist", insertedId: null })
     }
     await user.save();
-    res.status(201).json({success: true, data: user})
+    return res.status(201).json({success: true, data: user})
     // const result = await User
     // console.log(user);
 })

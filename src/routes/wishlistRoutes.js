@@ -14,13 +14,13 @@ router.post('/', async(req, res)=>{
         return res.json({message: "product already have in wishlist"})
     }
     await product.save();
-    res.status(201).json({success: true, data: product})
+   return res.status(201).json({success: true, data: product})
 })
 
 // get all products in wishlist
 router.get('/', async(req, res)=>{
     const products = await wishlist.find()
-    res.json(products)
+   return res.json(products)
 })
 
 // get products from wishlist
@@ -28,7 +28,7 @@ router.get('/:email', async(req, res)=>{
     const email = req.params.email;
     const filter = {userEmail: email}
     const products = await wishlist.find(filter)
-    res.json(products)
+   return res.json(products)
 })
 
 // delete product form wishlist
@@ -37,7 +37,7 @@ router.delete('/:id', async(req, res)=>{
     const filter = {_id: id};
     // console.log(filter);
     const result = await Wishlist.deleteOne(filter);
-    res.json(result)
+   return res.json(result)
 })
 
 

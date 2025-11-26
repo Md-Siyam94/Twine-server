@@ -12,14 +12,14 @@ router.post("/", async (req, res) => {
         return res.json({ message: "Product already have in cart" })
     }
     await product.save()
-    res.status(201).json({ success: true, data: product })
+   return res.status(201).json({ success: true, data: product })
 })
 
 
 // get cart products
 router.get("/", async (req, res) => {
     const cartProducts = await Cart.find()
-    res.json(cartProducts)
+   return res.json(cartProducts)
 })
 
 // get product by email
@@ -27,7 +27,7 @@ router.get("/:email", async (req, res) => {
     const email = req.params.email;
     const filter = { userEmail: email };
     const products = await Cart.find(filter);
-    res.json(products)
+   return res.json(products)
 })
 
 
@@ -35,7 +35,7 @@ router.get("/:email", async (req, res) => {
 router.get("/:id", async (req, res) => {
     const id = req.params.id;
     const product = await Cart.findById(id);
-    res.json(product)
+   return res.json(product)
 
 })
 
@@ -44,7 +44,7 @@ router.delete("/:id", async (req, res) => {
     const id = req.params.id;
     const filter = { _id: id }
     const result = await Cart.deleteOne(filter)
-    res.json(result)
+   return res.json(result)
 })
 
 
