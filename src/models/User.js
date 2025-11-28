@@ -21,14 +21,18 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ["male", "female", "others"]
     },
+    phoneNumber: {
+        type: Number || String,
+
+    },
     photo: {
         type: String,
-        default: ""
+        required: true
     },
     role: {
         type: String,
-        enum: ["user", "admin"],
-        default: "user"
+        default: "user",
+        enum: ["user", "admin"]
     }
 
 },
