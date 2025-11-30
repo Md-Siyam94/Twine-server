@@ -8,8 +8,10 @@ const router = express.Router()
 // post product wishlist
 router.post('/', async(req, res)=>{
     const product = new wishlist(req.body);
-    const filter = {productId: product?.productId}
-    const existingProduct = await wishlist.findOne(filter)
+    const existingProduct = await wishlist.findOne({
+        productId: product?.productId,
+        userEmail: product?.userEmail
+    })
     if(existingProduct){
         return res.json({message: "product already have in wishlist"})
     }

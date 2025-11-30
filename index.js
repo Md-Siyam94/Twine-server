@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express()
+const jwt = required('jsonwebtoken')
 require('dotenv').config()
 const mongoose = require('mongoose');
 const port = process.env.PORT || 5700
@@ -36,7 +37,7 @@ const orderRoutes = require('./src/routes/orderRoutes')
 
 const Products = require('./src/models/Product');
 const User = require('./src/models/User');
-const wishlist = require('./src/models/Wishlist');
+const Wishlist = require('./src/models/Wishlist');
 
 
 // use middlewire
@@ -60,23 +61,33 @@ app.get('/category', async (req, res) => {
 })
 
 // users state
-app.get("/users-state", async (req, res) => {
-  const wishlist = await wishlist.estimatedDocumentCount()
-  const totalPrice = await Products.aggregate([
-    {
-      $group: {
-        _id: null,
-        totalPrice: { $sum: "$price" }
+app.get("/user-state/:email", async (req, res) => {
+  const email = req.params.email
+  const filter = { email: email };
+  const user = await User.findOne(filter)
+  if (user) {
+    // user validation
+    const wishlist = await Wishlist.estimatedDocumentCount()
+    const totalPrice = await Products.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalPrice: { $sum: "$price" }
+        }
       }
-    }
-  ])
-  // const orders = await 
+    ])
+    // const orders = await 
 
-  res.json({
-    wishlist,
-    totalPrice,
+    return res.json({
+      wishlist,
+      totalPrice,
 
-  })
+    })
+
+  }else{
+    return res.status(403).json({message: " Unauthorized! Access forbidden"})
+  }
+
 })
 
 // admin state
@@ -85,7 +96,7 @@ app.get("/admin-state", async (req, res) => {
   const totalProducts = await Products.estimatedDocumentCount()
 
 
-  res.json({
+  return res.json({
     totalProducts,
     totalUsers,
 

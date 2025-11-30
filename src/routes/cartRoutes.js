@@ -1,13 +1,18 @@
 const express = require('express');
 const Cart = require('../models/Cart');
+const { default: mongoose, isValidObjectId } = require('mongoose');
 
 const router = express.Router()
 
 // post at cart
 router.post("/", async (req, res) => {
     const product = new Cart(req.body);
-    const productId = { productId: product?.productId };
-    const existingProduct = await Cart.findOne(productId);
+    // todo: make 
+    const existingProduct = await Cart.findOne({
+        productId: product?.productId,
+        userEmail: product?.userEmail
+    })
+    console.log(existingProduct);
     if (existingProduct) {
         return res.json({ message: "Product already have in cart" })
     }
