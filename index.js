@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const app = express()
-const jwt = required('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const mongoose = require('mongoose');
 const port = process.env.PORT || 5700
@@ -35,13 +35,29 @@ const cartRoutes = require('./src/routes/cartRoutes');
 const wishlistRoutes = require('./src/routes/wishlistRoutes');
 const orderRoutes = require('./src/routes/orderRoutes')
 
+
+// Jwt Api
+app.post("/jwt", async(req, res)=>{
+  const user = req.body;
+  const token= jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: '1d'
+  })
+  res.json({token})
+})
+
+// verify token
+const verifyToken=(req, res, next)=>{
+  console.log(req.headers);
+  next()
+}
+
 const Products = require('./src/models/Product');
 const User = require('./src/models/User');
 const Wishlist = require('./src/models/Wishlist');
 
 
 // use middlewire
-app.use('/users', userRoutes)
+app.use('/users', verifyToken, userRoutes)
 app.use('/products', productRoutes)
 app.use('/cart_products', cartRoutes)
 app.use('/wishlist', wishlistRoutes)
