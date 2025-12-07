@@ -74,7 +74,7 @@ const orderSchema = new mongoose.Schema({
 
     isPaid: {
       type: Boolean,
-      default: false,
+      required: true,
       enum: [true, false]
     },
 

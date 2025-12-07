@@ -45,11 +45,7 @@ app.post("/jwt", async(req, res)=>{
   res.json({token})
 })
 
-// verify token
-const verifyToken=(req, res, next)=>{
-  console.log(req.headers);
-  next()
-}
+
 
 const Products = require('./src/models/Product');
 const User = require('./src/models/User');
@@ -57,7 +53,7 @@ const Wishlist = require('./src/models/Wishlist');
 
 
 // use middlewire
-app.use('/users', verifyToken, userRoutes)
+app.use('/users',  userRoutes)
 app.use('/products', productRoutes)
 app.use('/cart_products', cartRoutes)
 app.use('/wishlist', wishlistRoutes)

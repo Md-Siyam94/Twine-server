@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
         productId: product?.productId,
         userEmail: product?.userEmail
     })
-    console.log(existingProduct);
+    // console.log(existingProduct);
     if (existingProduct) {
         return res.json({ message: "Product already have in cart" })
     }
