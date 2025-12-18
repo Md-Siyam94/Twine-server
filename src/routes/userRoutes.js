@@ -33,18 +33,18 @@ router.post("/", async(req, res)=>{
     // console.log(user);
 })
 
-router.get('/admin/:email', async(req, res)=>{
+router.get('/admin/:email',verifyToken, async(req, res)=>{
     const email = req.params.email;
-    if(!email === req.decoded.email ){
-        return res.status(401).json({message: "Unauthorized access!"})
-    }
+    // if(email !== req.decoded.email ){
+    //     return res.status(401).json({message: "Unauthorized access!"})
+    // }
     const filter = {email: email};
     const user = await User.findOne(filter);
     let isAdmin = false;
     if(user?.role === 'admin'){
         isAdmin = true
     };
-    return res.json(isAdmin)
+    return res.json(isAdmin);
 
 })
 
