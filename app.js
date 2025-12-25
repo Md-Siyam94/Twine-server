@@ -34,6 +34,7 @@ const productRoutes = require('./src/routes/productRoutes');
 const cartRoutes = require('./src/routes/cartRoutes');
 const wishlistRoutes = require('./src/routes/wishlistRoutes');
 const orderRoutes = require('./src/routes/orderRoutes')
+const paymentRoutes = require('./src/routes/paymentRoutes')
 
 
 // Jwt Api
@@ -59,6 +60,7 @@ app.use('/products', productRoutes)
 app.use('/cart_products', cartRoutes)
 app.use('/wishlist', wishlistRoutes)
 app.use('/orders', orderRoutes)
+app.use('/payments', paymentRoutes)
 
 // Aggrigation pipeline
 

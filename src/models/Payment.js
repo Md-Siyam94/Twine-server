@@ -2,34 +2,36 @@ const mongoose = require('mongoose');
 
 const paymentSchema = mongoose.Schema({
     
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
+    email: {
+        type: String,
         ref: "User",
         required: true,
       },
-  
-      // 🔗 What the payment is for (course, service, order, etc.)
-      itemType: {
+      userName:{
         type: String,
+        required: true
+      },
+       phone: {
+       type: String,
+       required: true
+       },
+       address:{
+        type: String,
+        required: true
+       },
+      items: {
+        type: [Object],
+        ref:"Product",
         required: true,
       },
-  
-      itemId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-      },
-  
-      // 💰 Payment details
-      amount: {
+      totalPrice: {
         type: Number,
         required: true,
       },
-  
-      currency: {
+      special_instructions:{
         type: String,
-        default: "BDT",
+        required: true,
       },
-  
       // 🏦 SSLCommerz info
       transactionId: {
         type: String,
@@ -37,13 +39,13 @@ const paymentSchema = mongoose.Schema({
         unique: true,
       },
   
-      sessionKey: {
-        type: String, // provided by SSLCommerz
-      },
+      // sessionKey: {
+      //   type: String, // provided by SSLCommerz
+      // },
   
-      paymentMethod: {
-        type: String, // card, bkash, nagad, rocket
-      },
+      // paymentMethod: {
+      //   type: String, // card, bkash, nagad, rocket
+      // },
   
       // 📌 Status tracking
       status: {
@@ -53,14 +55,10 @@ const paymentSchema = mongoose.Schema({
       },
   
       // 🧾 SSLCommerz response (for verification & logs)
-      sslResponse: {
-        type: Object,
-      },
+      // sslResponse: {
+      //   type: Object,
+      // },
   
-      // 📅 Timestamps from SSLCommerz
-      paidAt: {
-        type: Date,
-      },
     },
     { timestamps: true })
 
