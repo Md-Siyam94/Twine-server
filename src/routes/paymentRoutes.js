@@ -15,6 +15,7 @@
 const express = require('express');
 const Payment = require('../models/Payment');
 const { default: mongoose } = require('mongoose');
+const { default: axios } = require('axios');
 const router = express.Router()
 // initiate payment
 
@@ -22,17 +23,16 @@ const router = express.Router()
 router.post('/create-ssl-payment', async (req, res) => {
     const orderInfo = new Payment(req.body);
     const trxId = new mongoose.Types.ObjectId().toString()
-    console.log(trxId);
     const initiate = {
         store_id: `${process.env.store_id}`,
         store_passwd: `${process.env.store_passwd}`,
         total_amount: orderInfo?.totalPrice,
         currency: 'BDT',
         tran_id: trxId, // use unique tran_id for each api call
-        success_url: 'http://localhost:3030/success',
-        fail_url: 'http://localhost:3030/fail',
-        cancel_url: 'http://localhost:3030/cancel',
-        ipn_url: 'http://localhost:3030/ipn',
+        success_url: 'http://localhost:5700/success-payment',
+        fail_url: 'http://localhost:5700/fail',
+        cancel_url: 'http://localhost:5700/cancel',
+        ipn_url: 'http://localhost:5700/ipn-success-payment',
         shipping_method: 'Courier',
         product_name: 'Computer.',
         product_category: 'Electronic',
@@ -55,7 +55,8 @@ router.post('/create-ssl-payment', async (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     }
-    console.log(orderInfo);
+    const iniRespons = await axios.post(' https://sandbox.sslcommerz.com/gwprocess/v4/api.php',initiate)
+    console.log(iniRespons);
 })
 
 
